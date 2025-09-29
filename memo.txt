@@ -1,3 +1,0 @@
-Reactとの比較目的なので、npm installでやる
-
-npm init -yの-yはyesオプションらしい
