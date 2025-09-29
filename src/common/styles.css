@@ -1,0 +1,88 @@
+/* Common styles extracted from alpine.html and react/styles.css */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial;
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.todo .text {
+  flex: 1;
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.controls {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+input[type="text"] {
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 0.4rem 0.6rem;
+}
+
+.small {
+  font-size: 0.9rem;
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.input-button {
+  flex-shrink: 0;
+}
+
+.clear-completed {
+  /* dangerous / destructive action */
+  background-color: #f88;
+  border: none;
+  color: white;
+  border-radius: 0.25rem;
+}
+.clear-completed:hover {
+  background-color: #f44;
+}
+
+.font-weight-bold {
+  font-weight: 600;
+}
+
+.switch-link {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: inherit;
+  z-index: 1000;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
