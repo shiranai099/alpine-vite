@@ -9,12 +9,10 @@
   <body>
     <h1>Alpine.js TODO</h1>
 
-    <!-- 切替リンク：AlpineページからReactへ移動する -->
     <a class="switch-link" id="open-react" href="#">React version</a>
 
     <!-- フィルタ状態はこの root のローカル state に持たせる -->
     <div x-data="{ filter: 'all' }" x-init="$store.todos.load()">
-      <!-- 追加フォーム（小さなローカル state を使う） -->
       <div class="input-row" x-data="{ draft: '' }">
         <input
           type="text"
@@ -63,7 +61,6 @@
         </div>
       </div>
 
-      <!-- リスト表示 -->
       <div style="margin-top: 1rem">
         <template
           x-for="todo in $store.todos.list.filter(t => filter === 'all' || (filter === 'active' && !t.completed) || (filter === 'completed' && t.completed))"
@@ -76,7 +73,6 @@
               @change="$store.todos.setCompleted(todo.id, $event.target.checked)"
             />
             <div class="text">
-              <!-- 編集モードの切替 -->
               <template x-if="!editing">
                 <div>
                   <span
@@ -132,6 +128,5 @@
     </script>
 
     <script type="module" src="/alpine/main.ts"></script>
-    <!-- Alpine ロジックは外部ファイルに移動: src/alpine/alpine-todos.ts -->
   </body>
 </html>
