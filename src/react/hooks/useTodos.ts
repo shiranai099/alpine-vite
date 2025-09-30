@@ -1,33 +1,29 @@
-import { useState, useEffect, useCallback } from "react";
-import type { Todo } from "../../types/todo";
-import { todosStore } from "../../todos.logic";
+import { useState, useEffect, useCallback } from "react"
+import type { Todo } from "../../types/todo"
+import { reactTodosStore } from "../react-store"
 
 export default function useTodos() {
-  const [todos, setTodos] = useState<Todo[]>(() =>
-    todosStore.list ? todosStore.list.slice() : []
-  );
+  const [todos, setTodos] = useState<Todo[]>(() => reactTodosStore.getTodos())
 
   useEffect(() => {
-    const unsub = todosStore.subscribe((list: Todo[]) => {
-      setTodos(Array.isArray(list) ? list.slice() : []);
-    });
-    return () => {
-      if (typeof unsub === "function") unsub();
-    };
-  }, []);
+    const unsubscribe = reactTodosStore.subscribe((todoList: Todo[]) => {
+      setTodos(todoList)
+    })
+    return unsubscribe
+  }, [])
 
-  const add = useCallback((text: string) => todosStore.add(text), []);
+  const add = useCallback((text: string) => reactTodosStore.add(text), [])
   const update = useCallback(
-    (id: string, newText: string) => todosStore.update(id, newText),
+    (id: string, newText: string) => reactTodosStore.update(id, newText),
     []
-  );
-  const remove = useCallback((id: string) => todosStore.remove(id), []);
+  )
+  const remove = useCallback((id: string) => reactTodosStore.remove(id), [])
   const setCompleted = useCallback(
-    (id: string, value: boolean) => todosStore.setCompleted(id, value),
+    (id: string, value: boolean) => reactTodosStore.setCompleted(id, value),
     []
-  );
-  const clearCompleted = useCallback(() => todosStore.clearCompleted(), []);
-  const reload = useCallback(() => todosStore.load(), []);
+  )
+  const clearCompleted = useCallback(() => reactTodosStore.clearCompleted(), [])
+  const reload = useCallback(() => reactTodosStore.reload(), [])
 
   return {
     todos,
@@ -37,5 +33,5 @@ export default function useTodos() {
     setCompleted,
     clearCompleted,
     reload,
-  } as const;
+  } as const
 }

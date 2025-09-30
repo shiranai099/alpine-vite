@@ -17,14 +17,14 @@
       document
         .getElementById("open-alpine")
         .addEventListener("click", function (ev) {
-          ev.preventDefault();
+          ev.preventDefault()
           try {
-            localStorage.setItem("ui_framework", "alpine");
+            localStorage.setItem("ui_framework", "alpine")
           } catch (e) {
             /* ignore */
           }
-          location.href = "/";
-        });
+          location.href = "/"
+        })
     </script>
 
     <script type="module" src="/react/main.tsx"></script>

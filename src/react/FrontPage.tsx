@@ -1,25 +1,25 @@
-import { useState, useRef, useEffect } from "react";
-import useTodos from "./hooks/useTodos";
-import type { Todo } from "../types/todo";
+import { useState, useRef, useEffect } from "react"
+import useTodos from "./hooks/useTodos"
+import type { Todo } from "../types/todo"
 
 export default function FrontPage() {
   const { todos, add, update, remove, setCompleted, clearCompleted } =
-    useTodos();
-  const [draft, setDraft] = useState("");
-  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
-  const inputRef = useRef<HTMLInputElement | null>(null);
+    useTodos()
+  const [draft, setDraft] = useState("")
+  const [filter, setFilter] = useState<"all" | "active" | "completed">("all")
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   function handleAdd() {
-    const t = (draft || "").trim();
-    if (!t) return;
-    add(t);
-    setDraft("");
-    if (inputRef.current) inputRef.current.focus();
+    const t = (draft || "").trim()
+    if (!t) return
+    add(t)
+    setDraft("")
+    if (inputRef.current) inputRef.current.focus()
   }
 
   const visible = todos.filter((t) =>
     filter === "all" ? true : filter === "active" ? !t.completed : t.completed
-  );
+  )
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default function FrontPage() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyUp={(e) => {
-            if (e.key === "Enter") handleAdd();
+            if (e.key === "Enter") handleAdd()
           }}
         />
         <button onClick={handleAdd} className="input-button">
@@ -88,7 +88,7 @@ export default function FrontPage() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function TodoRow({
@@ -97,31 +97,31 @@ function TodoRow({
   onRemove,
   onSave,
 }: {
-  todo: Todo;
-  onToggle: (v: boolean) => void;
-  onRemove: () => void;
-  onSave: (t: string) => void;
+  todo: Todo
+  onToggle: (v: boolean) => void
+  onRemove: () => void
+  onSave: (t: string) => void
 }) {
-  const [editing, setEditing] = useState(false);
-  const [tempText, setTempText] = useState(todo.text);
-  const ref = useRef<HTMLInputElement | null>(null);
+  const [editing, setEditing] = useState(false)
+  const [tempText, setTempText] = useState(todo.text)
+  const ref = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    setTempText(todo.text);
-  }, [todo.text]);
+    setTempText(todo.text)
+  }, [todo.text])
   useEffect(() => {
-    if (editing && ref.current) ref.current.focus();
-  }, [editing]);
+    if (editing && ref.current) ref.current.focus()
+  }, [editing])
 
   function save() {
-    const t = (tempText || "").trim();
+    const t = (tempText || "").trim()
     if (!t) {
-      setEditing(false);
-      setTempText(todo.text);
-      return;
+      setEditing(false)
+      setTempText(todo.text)
+      return
     }
-    onSave(t);
-    setEditing(false);
+    onSave(t)
+    setEditing(false)
   }
 
   return (
@@ -146,18 +146,18 @@ function TodoRow({
               value={tempText}
               onChange={(e) => setTempText(e.target.value)}
               onKeyUp={(e) => {
-                if (e.key === "Enter") save();
+                if (e.key === "Enter") save()
                 if (e.key === "Escape") {
-                  setEditing(false);
-                  setTempText(todo.text);
+                  setEditing(false)
+                  setTempText(todo.text)
                 }
               }}
             />
             <button onClick={save}>Save</button>
             <button
               onClick={() => {
-                setEditing(false);
-                setTempText(todo.text);
+                setEditing(false)
+                setTempText(todo.text)
               }}
             >
               Cancel
@@ -168,5 +168,5 @@ function TodoRow({
       <button onClick={() => setEditing(true)}>Edit</button>
       <button onClick={onRemove}>Delete</button>
     </div>
-  );
+  )
 }

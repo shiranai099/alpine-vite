@@ -13,7 +13,7 @@
     <a class="switch-link" id="open-react" href="#">React version</a>
 
     <!-- フィルタ状態はこの root のローカル state に持たせる -->
-    <div x-data="{ filter: 'all' }" x-init="$store.todos.load()">
+    <div x-data="{ filter: 'all' }">
       <div class="input-row" x-data="{ draft: '' }">
         <input
           type="text"
@@ -117,15 +117,15 @@
       document
         .getElementById("open-react")
         ?.addEventListener("click", function (ev) {
-          ev.preventDefault();
+          ev.preventDefault()
           try {
-            localStorage.setItem("ui_framework", "react");
+            localStorage.setItem("ui_framework", "react")
           } catch (e) {
             /* ignore */
           }
           // Reactのページへ
-          location.href = "/react.html";
-        });
+          location.href = "/react.html"
+        })
     </script>
 
     <script type="module" src="/alpine/main.js"></script>
