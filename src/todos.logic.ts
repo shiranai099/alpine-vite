@@ -1,13 +1,10 @@
 import type { Todo } from "./types/todo";
+import { v4 as uuidv4 } from "uuid";
 
 // Keep compatibility with existing storage key used by the Alpine code
 const STORAGE_KEY = "alpine_todos_v1";
 
 type Subscriber = (todos: Todo[]) => void;
-
-function makeId() {
-  return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
-}
 
 const subscribers: Subscriber[] = [];
 
@@ -37,7 +34,7 @@ export const todosStore = {
 
   add(text: string) {
     if (!text || !text.trim()) return;
-    this.list.push({ id: makeId(), text: text.trim(), completed: false });
+    this.list.push({ id: uuidv4(), text: text.trim(), completed: false });
     this.save();
     this.notify();
   },
