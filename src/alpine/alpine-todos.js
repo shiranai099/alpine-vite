@@ -1,9 +1,8 @@
 import Alpine from "alpinejs";
-import type { Todo } from "../types/todo";
 import { todosStore } from "../todos.logic";
 
 // Alpine data for a single todo item (keeps the small local editing state)
-Alpine.data("todoItem", (todo: Todo) => {
+Alpine.data("todoItem", (todo) => {
   return {
     editing: false,
     tempText: todo.text,
@@ -11,9 +10,8 @@ Alpine.data("todoItem", (todo: Todo) => {
     startEdit() {
       this.editing = true;
       this.tempText = todo.text;
-      (this as any).$nextTick(() => {
-        if ((this as any).$refs && (this as any).$refs.input)
-          (this as any).$refs.input.focus();
+      this.$nextTick(() => {
+        if (this.$refs && this.$refs.input) this.$refs.input.focus();
       });
     },
 
@@ -23,7 +21,7 @@ Alpine.data("todoItem", (todo: Todo) => {
         this.cancel();
         return;
       }
-      (this as any).$store.todos.update(todo.id, t);
+      this.$store.todos.update(todo.id, t);
       this.editing = false;
     },
 
@@ -31,16 +29,15 @@ Alpine.data("todoItem", (todo: Todo) => {
       this.editing = false;
       this.tempText = todo.text;
     },
-  } as any;
+  };
 });
 
 export function initTodos() {
-  // Register the shared store instance with Alpine so existing templates keep working
-  Alpine.store("todos", todosStore as any);
+  Alpine.store("todos", todosStore);
 }
 
 export default function setupAlpineTodos() {
-  if ((window as any).Alpine && (window as any).Alpine.store) {
+  if (window.Alpine && window.Alpine.store) {
     initTodos();
   } else {
     document.addEventListener("alpine:init", () => {
