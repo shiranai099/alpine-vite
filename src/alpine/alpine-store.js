@@ -2,8 +2,6 @@ import Alpine from "alpinejs"
 import persist from "@alpinejs/persist"
 import { v4 as uuidv4 } from "uuid"
 
-// Alpine.js専用のストア実装
-// $persistを使用してローカルストレージと自動同期
 export function createAlpineStore() {
   return {
     // $persistを使用してローカルストレージと自動同期
@@ -11,10 +9,11 @@ export function createAlpineStore() {
     list: Alpine.$persist([]).as("alpine_todos_v1"),
 
     add(text) {
-      if (!text || !text.trim()) return
+      const trimmedText = text.trim()
+      if (!trimmedText) return
       this.list.push({
         id: uuidv4(),
-        text: text.trim(),
+        text: trimmedText,
         completed: false,
       })
     },
@@ -44,7 +43,6 @@ export function createAlpineStore() {
       this.list = this.list.filter((todo) => !todo.completed)
     },
 
-    // フィルタリング用のヘルパー
     get active() {
       return this.list.filter((todo) => !todo.completed)
     },
@@ -53,17 +51,21 @@ export function createAlpineStore() {
       return this.list.filter((todo) => todo.completed)
     },
 
-    get activeCount() {
-      return this.active.length
-    },
-
-    get completedCount() {
-      return this.completed.length
+    // フィルタ状態に応じたリストを返すヘルパー
+    getFilteredList(filter) {
+      switch (filter) {
+        case "active":
+          return this.active
+        case "completed":
+          return this.completed
+        default:
+          return this.list
+      }
     },
   }
 }
 
-// Alpine data for a single todo item
+// Re-usable data
 Alpine.data("todoItem", (todo) => {
   return {
     editing: false,
@@ -94,32 +96,11 @@ Alpine.data("todoItem", (todo) => {
       this.editing = false
       this.tempText = todo.text
     },
-
-    handleKeydown(event) {
-      if (event.key === "Enter") {
-        this.save()
-      } else if (event.key === "Escape") {
-        this.cancel()
-      }
-    },
   }
 })
 
 // Alpine.jsのストアを初期化
-export function initAlpineStore() {
-  // @alpinejs/persistプラグインを登録
+export default function initAlpineStore() {
   Alpine.plugin(persist)
-
-  // ストアを登録
   Alpine.store("todos", createAlpineStore())
-}
-
-export default function setupAlpineTodos() {
-  if (window.Alpine) {
-    initAlpineStore()
-  } else {
-    document.addEventListener("alpine:init", () => {
-      initAlpineStore()
-    })
-  }
 }

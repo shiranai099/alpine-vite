@@ -1,6 +1,6 @@
 import Alpine from "alpinejs"
-import setupAlpineTodos from "./alpine-store"
+import initAlpineStore from "./alpine-store"
 
 window.Alpine = Alpine
-setupAlpineTodos()
+initAlpineStore()
 Alpine.start()

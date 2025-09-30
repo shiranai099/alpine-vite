@@ -64,7 +64,7 @@
 
       <div style="margin-top: 1rem">
         <template
-          x-for="todo in $store.todos.list.filter(t => filter === 'all' || (filter === 'active' && !t.completed) || (filter === 'completed' && t.completed))"
+          x-for="todo in $store.todos.getFilteredList(filter)"
           :key="todo.id"
         >
           <div class="todo" x-data="todoItem(todo)">
