@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import useTodos from "./hooks/useTodos";
 import type { Todo } from "../types/todo";
 
