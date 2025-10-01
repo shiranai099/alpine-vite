@@ -1,12 +1,121 @@
-<!-- リダイレクト用 -->
 <!DOCTYPE html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0;url=/alpine.html" />
-    <title>Redirecting…</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/alpinejs-logo-icon.svg" />
+    <link rel="stylesheet" href="/common/styles.css" />
+    <title>Alpine TODO</title>
   </head>
   <body>
-    <p>Redirecting to <a href="/alpine.html">alpine.html</a>.</p>
+    <h1>Alpine.js TODO</h1>
+
+    <a class="switch-link" href="/react.html">React version</a>
+
+    <!-- フィルタ状態はこの root のローカル state に持たせる -->
+    <div
+      x-data="{ 
+      filter: 'all',
+      filters: [
+        { label: 'All', value: 'all' },
+        { label: 'Active', value: 'active' },
+        { label: 'Completed', value: 'completed' }
+      ]
+    }"
+    >
+      <div
+        class="input-row"
+        x-data="{ 
+        draft: '', 
+        addTodo() { 
+          if(this.draft && this.draft.trim()){ 
+            $store.todos.add(this.draft.trim()); 
+            this.draft = '' 
+          } 
+        } 
+      }"
+      >
+        <input
+          type="text"
+          placeholder="新しいTODOを入力して Enter"
+          x-model="draft"
+          @keyup.enter="addTodo()"
+        />
+        <button class="input-button" @click="addTodo()">追加</button>
+      </div>
+
+      <div class="controls">
+        <div class="small">
+          表示:
+          <template x-for="filterItem in filters" :key="filterItem.value">
+            <button
+              :class="{ 'font-weight-bold': filter === filterItem.value }"
+              @click="filter = filterItem.value"
+              x-text="filterItem.label"
+            ></button>
+          </template>
+        </div>
+        <div style="margin-left: auto">
+          <button
+            class="clear-completed"
+            @click="$store.todos.clearCompleted()"
+          >
+            Clear completed
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem">
+        <template
+          x-for="todo in $store.todos.getFilteredList(filter)"
+          :key="todo.id"
+        >
+          <div class="todo" x-data="todoItem(todo)">
+            <input
+              type="checkbox"
+              :checked="todo.completed"
+              @change="$store.todos.setCompleted(todo.id, $event.target.checked)"
+            />
+            <div class="text">
+              <template x-if="!editing">
+                <div>
+                  <span
+                    x-text="todo.text"
+                    :class="{ 'completed': todo.completed }"
+                  ></span>
+                </div>
+              </template>
+
+              <template x-if="editing">
+                <div style="display: flex; gap: 0.5rem">
+                  <input
+                    x-ref="input"
+                    type="text"
+                    x-model="tempText"
+                    @keyup.enter="save()"
+                    @keyup.escape="cancel()"
+                  />
+                  <button @click="save()">Save</button>
+                  <button @click="cancel()">Cancel</button>
+                </div>
+              </template>
+            </div>
+
+            <button @click="startEdit()">Edit</button>
+            <button @click="$store.todos.remove(todo.id)">Delete</button>
+          </div>
+        </template>
+
+        <div
+          x-show="$store.todos.list.length === 0"
+          class="small"
+          style="margin-top: 0.5rem"
+        >
+          TODO は空です
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/alpine/main.js"></script>
   </body>
 </html>

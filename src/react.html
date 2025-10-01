@@ -3,29 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/react-2.svg" />
     <title>Todos — React</title>
   </head>
   <body>
     <!-- 切替リンク：ReactページからAlpineへ移動する -->
-    <a class="switch-link" id="open-alpine" href="#">Alpine version</a>
+    <a class="switch-link" href="/">Alpine version</a>
 
     <div id="root"></div>
-
-    <script>
-      // 切替ボタン挙動：localStorage にフレームワークを記録してルートに遷移
-      document
-        .getElementById("open-alpine")
-        .addEventListener("click", function (ev) {
-          ev.preventDefault();
-          try {
-            localStorage.setItem("ui_framework", "alpine");
-          } catch (e) {
-            /* ignore */
-          }
-          // Alpineのページを alpine.html にしている想定
-          location.href = "/alpine.html";
-        });
-    </script>
 
     <script type="module" src="/react/main.tsx"></script>
   </body>
