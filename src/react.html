@@ -8,24 +8,9 @@
   </head>
   <body>
     <!-- 切替リンク：ReactページからAlpineへ移動する -->
-    <a class="switch-link" id="open-alpine" href="#">Alpine version</a>
+    <a class="switch-link" href="/">Alpine version</a>
 
     <div id="root"></div>
-
-    <script>
-      // 切替ボタン挙動：localStorage にフレームワークを記録してルートに遷移
-      document
-        .getElementById("open-alpine")
-        .addEventListener("click", function (ev) {
-          ev.preventDefault()
-          try {
-            localStorage.setItem("ui_framework", "alpine")
-          } catch (e) {
-            /* ignore */
-          }
-          location.href = "/"
-        })
-    </script>
 
     <script type="module" src="/react/main.tsx"></script>
   </body>

@@ -10,23 +10,29 @@
   <body>
     <h1>Alpine.js TODO</h1>
 
-    <a class="switch-link" id="open-react" href="#">React version</a>
+    <a class="switch-link" href="/react.html">React version</a>
 
     <!-- フィルタ状態はこの root のローカル state に持たせる -->
     <div x-data="{ filter: 'all' }">
-      <div class="input-row" x-data="{ draft: '' }">
+      <div
+        class="input-row"
+        x-data="{ 
+        draft: '', 
+        addTodo() { 
+          if(this.draft && this.draft.trim()){ 
+            $store.todos.add(this.draft.trim()); 
+            this.draft = '' 
+          } 
+        } 
+      }"
+      >
         <input
           type="text"
           placeholder="新しいTODOを入力して Enter"
           x-model="draft"
-          @keyup.enter="if(draft && draft.trim()){ $store.todos.add(draft.trim()); draft = '' }"
+          @keyup.enter="addTodo()"
         />
-        <button
-          class="input-button"
-          @click="if(draft && draft.trim()){ $store.todos.add(draft.trim()); draft = '' }"
-        >
-          追加
-        </button>
+        <button class="input-button" @click="addTodo()">追加</button>
       </div>
 
       <!-- フィルタ -->
@@ -112,21 +118,6 @@
         </div>
       </div>
     </div>
-    <script>
-      // 切替ボタン挙動：localStorage にフレームワークを記録してルートに遷移
-      document
-        .getElementById("open-react")
-        ?.addEventListener("click", function (ev) {
-          ev.preventDefault()
-          try {
-            localStorage.setItem("ui_framework", "react")
-          } catch (e) {
-            /* ignore */
-          }
-          // Reactのページへ
-          location.href = "/react.html"
-        })
-    </script>
 
     <script type="module" src="/alpine/main.js"></script>
   </body>
