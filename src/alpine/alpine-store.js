@@ -83,7 +83,7 @@ Alpine.data("todoItem", (todo) => {
     },
 
     save() {
-      const text = (this.tempText || "").trim()
+      const text = this.tempText.trim()
       if (!text) {
         this.cancel()
         return
