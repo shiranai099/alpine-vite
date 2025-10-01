@@ -13,7 +13,16 @@
     <a class="switch-link" href="/react.html">React version</a>
 
     <!-- フィルタ状態はこの root のローカル state に持たせる -->
-    <div x-data="{ filter: 'all' }">
+    <div
+      x-data="{ 
+      filter: 'all',
+      filters: [
+        { label: 'All', value: 'all' },
+        { label: 'Active', value: 'active' },
+        { label: 'Completed', value: 'completed' }
+      ]
+    }"
+    >
       <div
         class="input-row"
         x-data="{ 
@@ -35,28 +44,16 @@
         <button class="input-button" @click="addTodo()">追加</button>
       </div>
 
-      <!-- フィルタ -->
       <div class="controls">
         <div class="small">
           表示:
-          <button
-            x-bind:class="{ 'font-weight-bold': filter === 'all' }"
-            @click="filter = 'all'"
-          >
-            All
-          </button>
-          <button
-            :class="{ 'font-weight-bold': filter === 'active' }"
-            @click="filter = 'active'"
-          >
-            Active
-          </button>
-          <button
-            :class="{ 'font-weight-bold': filter === 'completed' }"
-            @click="filter = 'completed'"
-          >
-            Completed
-          </button>
+          <template x-for="filterItem in filters" :key="filterItem.value">
+            <button
+              :class="{ 'font-weight-bold': filter === filterItem.value }"
+              @click="filter = filterItem.value"
+              x-text="filterItem.label"
+            ></button>
+          </template>
         </div>
         <div style="margin-left: auto">
           <button
