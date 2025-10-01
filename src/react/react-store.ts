@@ -1,8 +1,7 @@
 import type { Todo } from "../types/todo"
 import { v4 as uuidv4 } from "uuid"
 
-// React専用のストア実装
-// Alpine.js側と同じローカルストレージキーを使用して互換性を保つ
+// Alpine.js側と同じローカルストレージキーを使用
 const STORAGE_KEY = "alpine_todos_v1"
 
 type Subscriber = (todos: Todo[]) => void
