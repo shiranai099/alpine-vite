@@ -9,7 +9,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "src/index.html",
-        alpine: "src/alpine.html",
         react: "src/react.html",
       },
     },
